@@ -6,7 +6,6 @@
 //  Copyright © 2021 Cassio Diego T. Campos. All rights reserved.
 //
 
-
 import SwiftUI
 
 struct AuthenticationView: View {

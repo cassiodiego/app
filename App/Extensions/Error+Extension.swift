@@ -11,4 +11,3 @@ import Foundation
 extension NSError: Identifiable {
     public var id: Int { code }
 }
-

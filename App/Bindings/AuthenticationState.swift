@@ -24,12 +24,11 @@ class AuthenticationState: NSObject, ObservableObject {
     static let shared = AuthenticationState()
     
     private let auth = Auth.auth()
-    fileprivate var currentNonce: String?
+    private var currentNonce: String?
     
-    override private init() {
-        loggedInUser = auth.currentUser
+    public override init() {
         super.init()
-        
+        self.loggedInUser = auth.currentUser
         auth.addStateDidChangeListener(authStateChanged)
     }
     
@@ -39,8 +38,8 @@ class AuthenticationState: NSObject, ObservableObject {
     }
     
     func login(with loginOption: LoginOption) {
-        self.isAuthenticating = true
-        self.error = nil
+        isAuthenticating = true
+        error = nil
                 
         switch loginOption {
         case .signInWithApple:
@@ -53,12 +52,12 @@ class AuthenticationState: NSObject, ObservableObject {
     
     func signup(email: String, password: String, passwordConfirmation: String) {
         guard password == passwordConfirmation else {
-            self.error = NSError(domain: "", code: 9210, userInfo: [NSLocalizedDescriptionKey: "Password and confirmation does not match"])
+            self.error = NSError(domain: "", code: 9210, userInfo: [NSLocalizedDescriptionKey: "A senha e a confirmação não coincidem"])
             return
         }
         
-        self.isAuthenticating = true
-        self.error = nil
+        isAuthenticating = true
+        error = nil
         
         auth.createUser(withEmail: email, password: password, completion: handleAuthResultCompletion)
     }
@@ -66,7 +65,6 @@ class AuthenticationState: NSObject, ObservableObject {
     private func handleSignInWith(email: String, password: String) {
         auth.signIn(withEmail: email, password: password, completion: handleAuthResultCompletion)
     }
-    
     
     private func handleAuthResultCompletion(auth: AuthDataResult?, error: Error?) {
         DispatchQueue.main.async {
@@ -80,9 +78,13 @@ class AuthenticationState: NSObject, ObservableObject {
     }
   
     func signout() {
-        try? auth.signOut()
+        do {
+            try auth.signOut()
+            self.loggedInUser = nil
+        } catch let signOutError as NSError {
+            self.error = signOutError
+        }
     }
-    
 }
 
 extension AuthenticationState: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
@@ -103,35 +105,36 @@ extension AuthenticationState: ASAuthorizationControllerDelegate, ASAuthorizatio
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return UIApplication.shared.windows[0]
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else {
+            fatalError("Nenhuma janela disponível")
+        }
+        return window
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+                fatalError("Estado inválido: um callback de login foi recebido, mas nenhuma solicitação de login foi enviada.")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
+                print("Não foi possível obter o token de identidade")
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                print("Não foi possível serializar a string do token a partir dos dados: \(appleIDToken.debugDescription)")
                 return
             }
-            // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
-            // Sign in with Firebase.
-            Auth.auth().signIn(with: credential, completion: handleAuthResultCompletion)
+            auth.signIn(with: credential, completion: handleAuthResultCompletion)
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("Sign in with Apple error: \(error)")
+        print("Erro ao entrar com a Apple: \(error)")
         self.isAuthenticating = false
         self.error = error as NSError
     }
-    
 }

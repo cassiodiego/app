@@ -11,11 +11,11 @@ import SwiftUI
 struct LogoTitle: View {
     var body: some View {
         VStack {
-//            Image("logo")
-//                .resizable()
-//                .frame(width: 80, height: 80)
+            Image("logo")
+                .resizable()
+                .frame(width: 80, height: 80)
             
-            Text("Authenticator")
+            Text("App")
                 .lineLimit(2)
             
             Text("cassiodiego.com")

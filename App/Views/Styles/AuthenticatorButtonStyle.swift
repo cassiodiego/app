@@ -18,4 +18,3 @@ struct AuthenticatorButtonStyle: ButtonStyle {
             .cornerRadius(8)
     }
 }
-

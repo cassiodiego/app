@@ -11,22 +11,25 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var authState: AuthenticationState
-     
-     var body: some View {
-         Group {
-             if authState.loggedInUser != nil {
-                 HomeView()
-             } else {
-                 AuthenticationView(authType: .login)
-             }
-         }
-         .animation(.easeInOut)
-         .transition(.move(edge: .bottom))
-     }
+    
+    var body: some View {
+        Group {
+            if authState.loggedInUser != nil {
+                HomeView()
+                    .transition(.move(edge: .bottom))
+                    .animation(.easeInOut, value: authState.loggedInUser)
+            } else {
+                AuthenticationView(authType: .login)
+                    .transition(.move(edge: .bottom))
+                    .animation(.easeInOut, value: authState.loggedInUser)
+            }
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(AuthenticationState())
     }
 }

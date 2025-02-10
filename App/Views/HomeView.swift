@@ -1,9 +1,9 @@
 //
 //  HomeView.swift
-//  Authenticator
+//  App
 //
-//  Created by Cassio Diego T. Campos on 04/12/21.
-//  Copyright © 2021 Cassio Diego T. Campos. All rights reserved.
+//  Created by Cassio Diego Tavares Campos on 04/12/21.
+//  Copyright © 2021 Cassio Diego Tavares Campos. All rights reserved.
 //
 
 import SwiftUI
@@ -29,7 +29,7 @@ struct HomeView: View {
                 }
             }
             .background(Color(UIColor.systemBackground))
-            .navigationBarTitle("Authenticator", displayMode: .inline)
+            .navigationBarTitle("App", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: signoutTapped, label: {
                 Image(systemName: "person.circle")
                 Text("Sair")

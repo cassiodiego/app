@@ -1,9 +1,9 @@
 //
 //  WebView.swift
-//  Authenticator
+//  App
 //
-//  Created by Cassio Diego T. Campos on 04/12/21.
-//  Copyright © 2021 Cassio Diego T. Campos. All rights reserved.
+//  Created by Cassio Diego Tavares Campos on 04/12/21.
+//  Copyright © 2021 Cassio Diego Tavares Campos. All rights reserved.
 //
 
 import SwiftUI
@@ -15,7 +15,7 @@ struct WebView: UIViewRepresentable {
     @Binding var isLoading: Bool
     @Binding var error: NSError?
     
-    func makeUIView(context: UIViewRepresentableContext<WebView>) -> WKWebView {
+    func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView(frame: .zero)
         webView.backgroundColor = UIColor.systemBackground
         webView.navigationDelegate = context.coordinator
@@ -26,9 +26,9 @@ struct WebView: UIViewRepresentable {
         return webView
     }
     
-    func updateUIView(_ uiView: WKWebView, context: UIViewRepresentableContext<WebView>) {}
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
     
-    func makeCoordinator() -> WebView.Coordinator {
+    func makeCoordinator() -> Coordinator {
         Coordinator(isLoading: $isLoading, error: $error)
     }
     
@@ -63,10 +63,26 @@ struct WebView: UIViewRepresentable {
             }
         }
         
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            DispatchQueue.main.async {
+                self.isLoading = false
+                self.error = error as NSError
+            }
+        }
+        
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             DispatchQueue.main.async {
                 self.isLoading = false
             }
         }
+    }
+}
+
+struct WebView_Previews: PreviewProvider {
+    @State static var isLoading = false
+    @State static var error: NSError? = nil
+
+    static var previews: some View {
+        WebView(url: URL(string: "https://cassiodiego.com")!, isLoading: $isLoading, error: $error)
     }
 }

@@ -27,10 +27,21 @@ class AuthenticationState: NSObject, ObservableObject {
     private var currentNonce: String?
     private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     
-    public override init() {
+    private override init() {
         super.init()
         self.loggedInUser = auth.currentUser
         authStateDidChangeListenerHandle = auth.addStateDidChangeListener(authStateChanged)
+    }
+    
+    public init(forPreview: Bool = false) {
+        super.init()
+        self.loggedInUser = nil
+    }
+    
+    deinit {
+        if let handle = authStateDidChangeListenerHandle {
+            auth.removeStateDidChangeListener(handle)
+        }
     }
     
     private func authStateChanged(with auth: Auth, user: User?) {
@@ -67,10 +78,10 @@ class AuthenticationState: NSObject, ObservableObject {
         auth.signIn(withEmail: email, password: password, completion: handleAuthResultCompletion)
     }
     
-    private func handleAuthResultCompletion(auth: AuthDataResult?, error: Error?) {
+    private func handleAuthResultCompletion(authResult: AuthDataResult?, error: Error?) {
         DispatchQueue.main.async {
             self.isAuthenticating = false
-            if let user = auth?.user {
+            if let user = authResult?.user {
                 self.loggedInUser = user
             } else if let error = error {
                 self.error = error as NSError
@@ -129,8 +140,8 @@ extension AuthenticationState: ASAuthorizationControllerDelegate, ASAuthorizatio
             let credential = OAuthProvider.appleCredential(
                 withIDToken: idTokenString,
                 rawNonce: nonce,
-                fullName: nil
-             )
+                fullName: appleIDCredential.fullName
+            )
             auth.signIn(with: credential, completion: handleAuthResultCompletion)
         }
     }

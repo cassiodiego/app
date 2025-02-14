@@ -27,7 +27,6 @@
 		8B0EDE4E242993DC0078EB07 /* AuthenticationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EDE4D242993DC0078EB07 /* AuthenticationType.swift */; };
 		8B0EDE50242993FA0078EB07 /* Error+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EDE4F242993FA0078EB07 /* Error+Extension.swift */; };
 		A339E19D29B4D26B009D473D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A339E19C29B4D26B009D473D /* FirebaseAuth */; };
-		A3CD77BF2D5F7A3400CA8917 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CD77BE2D5F7A3200CA8917 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +52,6 @@
 		8B0EDE4B242993760078EB07 /* LogoTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoTitleView.swift; sourceTree = "<group>"; };
 		8B0EDE4D242993DC0078EB07 /* AuthenticationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationType.swift; sourceTree = "<group>"; };
 		8B0EDE4F242993FA0078EB07 /* Error+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extension.swift"; sourceTree = "<group>"; };
-		A3CD77BE2D5F7A3200CA8917 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +130,6 @@
 		8B0EDE2B24279B850078EB07 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A3CD77BE2D5F7A3200CA8917 /* User.swift */,
 				8B0EDE4D242993DC0078EB07 /* AuthenticationType.swift */,
 			);
 			path = Models;
@@ -270,7 +267,6 @@
 				8B0EDE4E242993DC0078EB07 /* AuthenticationType.swift in Sources */,
 				8B0EDE3524279C1D0078EB07 /* HomeView.swift in Sources */,
 				8B0EDE2E24279BA30078EB07 /* String+Crypto.swift in Sources */,
-				A3CD77BF2D5F7A3400CA8917 /* User.swift in Sources */,
 				8B0EDE3224279BF70078EB07 /* ProgressView.swift in Sources */,
 				8B0EDE48242993210078EB07 /* AuthenticationFormView.swift in Sources */,
 				8B0EDE4A2429934B0078EB07 /* SplashScreenView.swift in Sources */,

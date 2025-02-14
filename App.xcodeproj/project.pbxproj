@@ -111,7 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				8B0EDE3D24279DC20078EB07 /* Styles */,
-				8B0EDE2F24279BE50078EB07 /* UIKit Views */,
+				8B0EDE2F24279BE50078EB07 /* UIKit */,
 				8B0EDE3424279C1D0078EB07 /* HomeView.swift */,
 				8B0EDE44242992D70078EB07 /* Authentication */,
 				8B0EDE1724279A840078EB07 /* ContentView.swift */,
@@ -144,14 +144,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		8B0EDE2F24279BE50078EB07 /* UIKit Views */ = {
+		8B0EDE2F24279BE50078EB07 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
 				8B0EDE3624279C440078EB07 /* SignInAppleButton.swift */,
 				8B0EDE3024279BF70078EB07 /* ProgressView.swift */,
 				8B0EDE3124279BF70078EB07 /* WebView.swift */,
 			);
-			path = "UIKit Views";
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		8B0EDE3D24279DC20078EB07 /* Styles */ = {

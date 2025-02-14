@@ -11,9 +11,12 @@ import SwiftUI
 struct LogoTitle: View {
     var body: some View {
         VStack {
-//            Image("logo")
-//                .resizable()
-//                .frame(width: 80, height: 80)
+            Image("Logo")
+                .resizable()
+                .frame(width: 80, height: 80)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                .shadow(radius: 5)
             
             Text("App")
                 .lineLimit(2)

@@ -31,7 +31,7 @@ struct HomeView: View {
             .background(Color(UIColor.systemBackground))
             .navigationBarTitle("App", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: signoutTapped, label: {
-                Image(systemName: "person.circle")
+                Image(systemName: "power")
                 Text("Sair")
             }))
             .edgesIgnoringSafeArea(.vertical)

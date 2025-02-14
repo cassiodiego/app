@@ -25,11 +25,12 @@ class AuthenticationState: NSObject, ObservableObject {
     
     private let auth = Auth.auth()
     private var currentNonce: String?
+    private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     
     public override init() {
         super.init()
         self.loggedInUser = auth.currentUser
-        auth.addStateDidChangeListener(authStateChanged)
+        authStateDidChangeListenerHandle = auth.addStateDidChangeListener(authStateChanged)
     }
     
     private func authStateChanged(with auth: Auth, user: User?) {
@@ -125,9 +126,11 @@ extension AuthenticationState: ASAuthorizationControllerDelegate, ASAuthorizatio
                 print("Não foi possível serializar a string do token a partir dos dados: \(appleIDToken.debugDescription)")
                 return
             }
-            let credential = OAuthProvider.credential(withProviderID: "apple.com",
-                                                      idToken: idTokenString,
-                                                      rawNonce: nonce)
+            let credential = OAuthProvider.appleCredential(
+                withIDToken: idTokenString,
+                rawNonce: nonce,
+                fullName: nil
+             )
             auth.signIn(with: credential, completion: handleAuthResultCompletion)
         }
     }

@@ -29,7 +29,14 @@ class AuthenticationState: NSObject, ObservableObject {
     
     private override init() {
         super.init()
-        self.loggedInUser = auth.currentUser
+        self.loggedInUser = auth.currentUser.map { firebaseUser in
+            return User(
+                id: firebaseUser.uid,
+                email: firebaseUser.email ?? "",
+                creationDate: firebaseUser.metadata.creationDate,
+                lastLoginDate: firebaseUser.metadata.lastSignInDate
+            )
+        }
         authStateDidChangeListenerHandle = auth.addStateDidChangeListener(authStateChanged)
     }
     
@@ -44,9 +51,17 @@ class AuthenticationState: NSObject, ObservableObject {
         }
     }
     
-    private func authStateChanged(with auth: Auth, user: User?) {
-        guard user != self.loggedInUser else { return }
-        self.loggedInUser = user
+    private func authStateChanged(with auth: Auth, user: FirebaseAuth.User?) {
+        guard let user = user else {
+            self.loggedInUser = nil
+            return
+        }
+        self.loggedInUser = User(
+            id: user.uid,
+            email: user.email ?? "",
+            creationDate: user.metadata.creationDate,
+            lastLoginDate: user.metadata.lastSignInDate
+        )
     }
     
     func login(with loginOption: LoginOption) {
@@ -82,7 +97,12 @@ class AuthenticationState: NSObject, ObservableObject {
         DispatchQueue.main.async {
             self.isAuthenticating = false
             if let user = authResult?.user {
-                self.loggedInUser = user
+                self.loggedInUser = User(
+                    id: user.uid,
+                    email: user.email ?? "",
+                    creationDate: user.metadata.creationDate,
+                    lastLoginDate: user.metadata.lastSignInDate
+                )
             } else if let error = error {
                 self.error = error as NSError
             }

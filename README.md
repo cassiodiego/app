@@ -2,6 +2,8 @@
 
 This is a template application demonstrating how to integrate Firebase Authentication into an iOS app using Swift. Follow the instructions below to set up Firebase, add the required configuration file, and enable authentication.
 
+![Screenshots](.github/assets/app-screenshot.png)
+
 ## Prerequisites
 
 - Xcode 12 or later
@@ -70,7 +72,12 @@ This is a template application demonstrating how to integrate Firebase Authentic
 2. You should now be able to sign up and log in using the authentication methods you enabled.
 
 ## Additional Resources
+- [Coordinator] (https://github.com/cassiodiego/coordinator)
+- [Networking](https://github.com/cassiodiego/networking)
+- [Notification](https://github.com/cassiodiego/notification)
+- [Parser](https://github.com/cassiodiego/parser)
 
+## Additional Documentation
 - [Firebase Documentation](https://firebase.google.com/docs/ios/setup)
 - [Firebase Authentication Documentation](https://firebase.google.com/docs/auth/ios/start)
 

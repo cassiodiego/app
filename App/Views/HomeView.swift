@@ -12,20 +12,26 @@ struct HomeView: View {
     
     @EnvironmentObject var authState: AuthenticationState
     
-    @State var isLoading = false
-    @State var error: NSError?
-    let url = URL(string: "https://cassiodiego.com")!
-
     var body: some View {
         NavigationView {
             ZStack {
-                WebView(url: url, isLoading: $isLoading, error: $error)
-                    .opacity(!isLoading && error == nil ? 1 : 0)
-                
-                if self.isLoading {
-                    ProgressView()
-                } else if self.error != nil {
-                    Text(error!.localizedDescription)
+                if let user = authState.loggedInUser {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Email: \(user.email)")
+                            .font(.headline)
+                        if let creationDate = user.creationDate {
+                            Text("Data de criação: \(creationDate.formatted())")
+                                .font(.subheadline)
+                        }
+                        if let lastLoginDate = user.lastLoginDate {
+                            Text("Último acesso: \(lastLoginDate.formatted())")
+                                .font(.subheadline)
+                        }
+                    }
+                    .padding()
+                } else {
+                    Text("Não autorizado")
+                        .font(.headline)
                 }
             }
             .background(Color(UIColor.systemBackground))
@@ -40,5 +46,11 @@ struct HomeView: View {
     
     private func signoutTapped() {
         authState.signout()
+    }
+}
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView().environmentObject(AuthenticationState.shared)
     }
 }

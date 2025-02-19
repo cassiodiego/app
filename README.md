@@ -72,7 +72,7 @@ This is a template application demonstrating how to integrate Firebase Authentic
 2. You should now be able to sign up and log in using the authentication methods you enabled.
 
 ## Additional Resources
-- [Coordinator] (https://github.com/cassiodiego/coordinator)
+- [Coordinator](https://github.com/cassiodiego/coordinator)
 - [Networking](https://github.com/cassiodiego/networking)
 - [Notification](https://github.com/cassiodiego/notification)
 - [Parser](https://github.com/cassiodiego/parser)
